@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+ Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="1.1.0-alpha" use-changelog="false" last-position="0,182" last-zoom="0.75" max-obj-count="9"
+	 default-schema="public" default-owner="postgres"
+	 layers="Default layer"
+	 active-layers="0"
+	 layer-name-colors="#000000"
+	 layer-rect-colors="#b4b4b4"
+	 show-layer-names="false" show-layer-rects="false">
+<role name="pg_database_owner"
+ inherit="true"
+ password="********"
+ sql-disabled="true">
+</role>
+
+<database name="Air_test" encoding="UTF8" lc-collate="English_United States.1251" lc-ctype="English_United States.1251" is-template="false" allow-conns="true">
+	<role name="postgres"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" layers="0" rect-visible="true" fill-color="#e1e1e1" name-color="#000000" sql-disabled="true">
+</schema>
+
+<schema name="bookings" layers="0" rect-visible="true" fill-color="#262c8d" name-color="#000000">
+	<role name="postgres"/>
+	<comment> <![CDATA[Airlines demo database schema]]> </comment>
+	<appended-sql> <![CDATA[ALTER TABLE bookings
+ADD COLUMN test_amount type_amount;]]> </appended-sql>
+</schema>
+
+<function name="lang"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="STABLE"
+		security-type="SECURITY INVOKER"
+		parallel-type="PARALLEL UNSAFE"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+	<language name="plpgsql"/>
+	<return-type>
+	<type name="text" length="0"/>
+	</return-type>
+	<definition> <![CDATA[BEGIN
+  RETURN current_setting('bookings.lang');
+EXCEPTION
+  WHEN undefined_object THEN
+    RETURN NULL;
+END;]]> </definition>
+</function>
+
+<function name="now"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="IMMUTABLE"
+		security-type="SECURITY INVOKER"
+		parallel-type="PARALLEL UNSAFE"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+	<comment> <![CDATA[Point in time according to which the data are generated]]> </comment>
+	<language name="sql"/>
+	<return-type>
+	<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</return-type>
+	<definition> <![CDATA[SELECT '2017-08-15 18:00:00'::TIMESTAMP AT TIME ZONE 'Europe/Moscow';]]> </definition>
+</function>
+
+<table name="aircrafts" layers="0" alias="Самолеты" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+	<comment> <![CDATA[Aircrafts (internal data)]]> </comment>
+	<position x="2040" y="520"/>
+	<column name="aircraft_code" alias="Код самолета" not-null="true">
+		<type name="character" length="3"/>
+		<comment> <![CDATA[Aircraft code, IATA]]> </comment>
+	</column>
+	<column name="model" alias="Модель самолета" not-null="true">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Aircraft model]]> </comment>
+	</column>
+	<column name="range" alias="Максимальная дальность полета, км" not-null="true">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[Maximal flying distance, km]]> </comment>
+	</column>
+	<constraint name="aircrafts_range_check" type="ck-constr" table="bookings.aircrafts">
+			<expression> <![CDATA[(range > 0)]]> </expression>
+	</constraint>
+	<constraint name="aircrafts_pkey" type="pk-constr" table="bookings.aircrafts">
+		<columns names="aircraft_code" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="airports" layers="0" alias="Аэропорты" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+	<comment> <![CDATA[Airports (internal data)]]> </comment>
+	<position x="1500" y="180"/>
+	<column name="airport_code" alias="Код аэропорта" not-null="true">
+		<type name="character" length="3"/>
+		<comment> <![CDATA[Airport code]]> </comment>
+	</column>
+	<column name="airport_name" alias="Название аэропорта" not-null="true">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Airport name]]> </comment>
+	</column>
+	<column name="city" alias="Город" not-null="true">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[City]]> </comment>
+	</column>
+	<column name="coordinates" alias="Координаты аэропорта (долгота и широта)" not-null="true">
+		<type name="point" length="0"/>
+		<comment> <![CDATA[Airport coordinates (longitude and latitude)]]> </comment>
+	</column>
+	<column name="timezone" alias="Часовай пояс аэропорта" not-null="true">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Airport time zone]]> </comment>
+	</column>
+	<constraint name="airports_data_pkey" type="pk-constr" table="bookings.airports">
+		<columns names="airport_code" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="boarding_passes" layers="0" alias="Посадочные талоны" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+	<comment> <![CDATA[Boarding passes]]> </comment>
+	<position x="740" y="820"/>
+	<column name="ticket_no" alias="Номер бмлета" not-null="true">
+		<type name="character" length="13"/>
+		<comment> <![CDATA[Ticket number]]> </comment>
+	</column>
+	<column name="flight_id" alias="Идентификатор рейса" not-null="true">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[Flight ID]]> </comment>
+	</column>
+	<column name="boarding_no" alias="Номер посадочного талона" not-null="true">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[Boarding pass number]]> </comment>
+	</column>
+	<column name="seat_no" alias="Номер места" not-null="true">
+		<type name="character varying" length="4"/>
+		<comment> <![CDATA[Seat number]]> </comment>
+	</column>
+	<constraint name="boarding_passes_pkey" type="pk-constr" table="bookings.boarding_passes">
+		<columns names="ticket_no,flight_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="bookings" layers="0" alias="Бронирования" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+	<comment> <![CDATA[Bookings]]> </comment>
+	<position x="260" y="240"/>
+	<column name="book_ref" alias="Номер бронирования" not-null="true">
+		<type name="character" length="6"/>
+		<comment> <![CDATA[Booking number]]> </comment>
+	</column>
+	<column name="book_date" alias="Дата бронирования" not-null="true">
+		<type name="timestamp" length="0"/>
+		<comment> <![CDATA[Booking date]]> </comment>
+	</column>
+	<column name="total_amount" alias="Полная сумма бронирования" not-null="true">
+		<type name="numeric" length="10" precision="2"/>
+		<comment> <![CDATA[Total booking cost]]> </comment>
+	</column>
+	<constraint name="bookings_pkey" type="pk-constr" table="bookings.bookings">
+		<columns names="book_ref" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="flights_flight_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="9223372036854775807" cache="1">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="flights" layers="0" alias="Рейсы" collapse-mode="2" max-obj-count="12" z-value="0">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+	<comment> <![CDATA[Flights]]> </comment>
+	<position x="1520" y="440"/>
+	<column name="flight_id" alias="Идентификатор рейса" not-null="true" default-value="nextval('flights_flight_id_seq'::regclass)">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[Flight ID]]> </comment>
+	</column>
+	<column name="flight_no" alias="Номер рейса" not-null="true">
+		<type name="character" length="6"/>
+		<comment> <![CDATA[Flight number]]> </comment>
+	</column>
+	<column name="scheduled_departure" alias="Время вылета по расписанию" not-null="true">
+		<type name="timestamp" length="0"/>
+		<comment> <![CDATA[Scheduled departure time]]> </comment>
+	</column>
+	<column name="scheduled_arrival" alias="Время прилета по расписанию" not-null="true">
+		<type name="timestamp" length="0"/>
+		<comment> <![CDATA[Scheduled arrival time]]> </comment>
+	</column>
+	<column name="departure_airport" alias="Аэропорт отправления" not-null="true">
+		<type name="character" length="3"/>
+		<comment> <![CDATA[Airport of departure]]> </comment>
+	</column>
+	<column name="arrival_airport" alias="Аэропорт прибытия" not-null="true">
+		<type name="character" length="3"/>
+		<comment> <![CDATA[Airport of arrival]]> </comment>
+	</column>
+	<column name="status" alias="Статус рейса" not-null="true">
+		<type name="character varying" length="20"/>
+		<comment> <![CDATA[Flight status]]> </comment>
+	</column>
+	<column name="aircraft_code" alias="Код самолета" not-null="true">
+		<type name="character" length="3"/>
+		<comment> <![CDATA[Aircraft code, IATA]]> </comment>
+	</column>
+	<column name="actual_departure" alias="Фактическое время вылета">
+		<type name="timestamp" length="0"/>
+		<comment> <![CDATA[Actual departure time]]> </comment>
+	</column>
+	<column name="actual_arrival" alias="Фактическое время прилета">
+		<type name="timestamp" length="0"/>
+		<comment> <![CDATA[Actual arrival time]]> </comment>
+	</column>
+	<constraint name="flights_pkey" type="pk-constr" table="bookings.flights">
+		<columns names="flight_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="seats" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+	<comment> <![CDATA[Seats]]> </comment>
+	<position x="2020" y="780"/>
+	<column name="aircraft_code" alias="Код самолета" not-null="true">
+		<type name="character" length="3"/>
+		<comment> <![CDATA[Aircraft code, IATA]]> </comment>
+	</column>
+	<column name="seat_no" alias="Номер места" not-null="true">
+		<type name="character varying" length="4"/>
+		<comment> <![CDATA[Seat number]]> </comment>
+	</column>
+	<column name="fare_conditions" alias="Класс обслуживания" not-null="true">
+		<type name="character varying" length="10"/>
+		<comment> <![CDATA[Travel class]]> </comment>
+	</column>
+	<constraint name="seats_fare_conditions_check" type="ck-constr" table="bookings.seats">
+			<expression> <![CDATA[((fare_conditions)::text = ANY (ARRAY[('Economy'::character varying)::text, ('Comfort'::character varying)::text, ('Business'::character varying)::text]))]]> </expression>
+	</constraint>
+	<constraint name="seats_pkey" type="pk-constr" table="bookings.seats">
+		<columns names="aircraft_code,seat_no" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="ticket_flights" layers="0" alias="Перелеты" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+	<comment> <![CDATA[Flight segment]]> </comment>
+	<position x="760" y="520"/>
+	<column name="ticket_no" alias="Номер билета" not-null="true">
+		<type name="character" length="13"/>
+		<comment> <![CDATA[Ticket number]]> </comment>
+	</column>
+	<column name="flight_id" alias="Идентификатор рейса" not-null="true">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[Flight ID]]> </comment>
+	</column>
+	<column name="fare_conditions" alias="Класс обслуживания" not-null="true">
+		<type name="character varying" length="10"/>
+		<comment> <![CDATA[Travel class]]> </comment>
+	</column>
+	<column name="amount" alias="Стоимость перелета" not-null="true">
+		<type name="numeric" length="10" precision="2"/>
+		<comment> <![CDATA[Travel cost]]> </comment>
+	</column>
+	<constraint name="ticket_flights_pkey" type="pk-constr" table="bookings.ticket_flights">
+		<columns names="ticket_no,flight_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tickets" layers="0" alias="Билеты" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+	<comment> <![CDATA[Tickets]]> </comment>
+	<position x="220" y="500"/>
+	<column name="ticket_no" alias="Номер билета" not-null="true">
+		<type name="character" length="13"/>
+		<comment> <![CDATA[Ticket number]]> </comment>
+	</column>
+	<column name="book_ref" alias="Номер бронирования" not-null="true">
+		<type name="character" length="6"/>
+		<comment> <![CDATA[Booking number]]> </comment>
+	</column>
+	<column name="passenger_id" alias="Идентификатор пассажира" not-null="true">
+		<type name="character varying" length="20"/>
+		<comment> <![CDATA[Passenger ID]]> </comment>
+	</column>
+	<column name="passenger_name" alias="Имя пассажира" not-null="true">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Passenger name]]> </comment>
+	</column>
+	<column name="contact_data" alias="Контактные данные пассажира">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Passenger contact information]]> </comment>
+	</column>
+	<constraint name="tickets_pkey" type="pk-constr" table="bookings.tickets">
+		<columns names="ticket_no" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<domain name="type_amount" not-null="false">
+	<schema name="bookings"/>
+	<role name="postgres"/>
+	<type name="numeric" length="10" precision="2"/>
+</domain>
+
+<constraint name="boarding_passes_ticket_no_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bookings.ticket_flights" table="bookings.boarding_passes">
+	<columns names="ticket_no,flight_id" ref-type="src-columns"/>
+	<columns names="ticket_no,flight_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="flights_aircraft_code_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bookings.aircrafts" table="bookings.flights">
+	<columns names="aircraft_code" ref-type="src-columns"/>
+	<columns names="aircraft_code" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="flights_arrival_airport_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bookings.airports" table="bookings.flights">
+	<columns names="arrival_airport" ref-type="src-columns"/>
+	<columns names="airport_code" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="flights_departure_airport_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bookings.airports" table="bookings.flights">
+	<columns names="departure_airport" ref-type="src-columns"/>
+	<columns names="airport_code" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="seats_aircraft_code_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="CASCADE" ref-table="bookings.aircrafts" table="bookings.seats">
+	<columns names="aircraft_code" ref-type="src-columns"/>
+	<columns names="aircraft_code" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="ticket_flights_flight_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bookings.flights" table="bookings.ticket_flights">
+	<columns names="flight_id" ref-type="src-columns"/>
+	<columns names="flight_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="ticket_flights_ticket_no_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bookings.tickets" table="bookings.ticket_flights">
+	<columns names="ticket_no" ref-type="src-columns"/>
+	<columns names="ticket_no" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="tickets_book_ref_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="bookings.bookings" table="bookings.tickets">
+	<columns names="book_ref" ref-type="src-columns"/>
+	<columns names="book_ref" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_boarding_passes_ticket_flights" type="relfk" layers="0"
+	 custom-color="#c187ce"
+	 src-table="bookings.boarding_passes"
+	 dst-table="bookings.ticket_flights" reference-fk="boarding_passes_ticket_no_fkey"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_flights_aircrafts_data" type="relfk" layers="0"
+	 custom-color="#f0530b"
+	 src-table="bookings.flights"
+	 dst-table="bookings.aircrafts" reference-fk="flights_aircraft_code_fkey"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_flights_airports_data" type="relfk" layers="0"
+	 custom-color="#c85dd9"
+	 src-table="bookings.flights"
+	 dst-table="bookings.airports" reference-fk="flights_arrival_airport_fkey"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_flights_airports_data1" type="relfk" layers="0"
+	 custom-color="#872048"
+	 src-table="bookings.flights"
+	 dst-table="bookings.airports" reference-fk="flights_departure_airport_fkey"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_seats_aircrafts_data" type="relfk" layers="0"
+	 custom-color="#d4e573"
+	 src-table="bookings.seats"
+	 dst-table="bookings.aircrafts" reference-fk="seats_aircraft_code_fkey"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_ticket_flights_flights" type="relfk" layers="0"
+	 custom-color="#ffc308"
+	 src-table="bookings.ticket_flights"
+	 dst-table="bookings.flights" reference-fk="ticket_flights_flight_id_fkey"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_ticket_flights_tickets" type="relfk" layers="0"
+	 custom-color="#d120d3"
+	 src-table="bookings.ticket_flights"
+	 dst-table="bookings.tickets" reference-fk="ticket_flights_ticket_no_fkey"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_tickets_bookings" type="relfk" layers="0"
+	 custom-color="#ebb616"
+	 src-table="bookings.tickets"
+	 dst-table="bookings.bookings" reference-fk="tickets_book_ref_fkey"
+	 src-required="false" dst-required="true"/>
+
+<permission>
+	<object name="public" type="schema"/>
+	<roles names="pg_database_owner"/>
+	<privileges create="true" usage="true"/>
+</permission>
+<permission>
+	<object name="public" type="schema"/>
+	<privileges usage="true"/>
+</permission>
+</dbmodel>
