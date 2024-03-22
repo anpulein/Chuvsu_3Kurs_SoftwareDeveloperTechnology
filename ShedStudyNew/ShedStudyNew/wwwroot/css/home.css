@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue&family=Inter&display=swap');
+
+.main-text {
+    font-family: Epilogue; /* Heading */
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 56px;
+    color: #171A1FFF; /* neutral-900 */
+}
+
+.text {
+    top: 171px;
+    left: 324px;
+    width: 797px;
+    font-family: Inter; /* Body */
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 30px;
+    text-align: center;
+    color: #9095A0FF; /* neutral-500 */
+}
+
+
+/* Image 1540 */
+.image {
+    width: 1176px;
+    height: 600px;
+    border-radius: 8px; /* border-xl */
+    margin-top: 59px;
+}
+
+/* Button 408 */
+.button {
+    width: 80px;
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Inter; /* Body */
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #FFFFFFFF; /* white */
+    background: #00BDD6FF; /* primary-500 */
+    opacity: 1;
+    border: none;
+    border-radius: 4px; /* border-m */
+}
+/* Hover */
+.button:hover {
+    color: #FFFFFFFF; /* white */
+    background: #00A9C0FF; /* primary-550 */
+}
+/* Pressed */
+.button:hover:active {
+    color: #FFFFFFFF; /* white */
+    background: #0095A9FF; /* primary-600 */
+}
+/* Disabled */
+.button:disabled {
+    opacity: 0.4;
+}

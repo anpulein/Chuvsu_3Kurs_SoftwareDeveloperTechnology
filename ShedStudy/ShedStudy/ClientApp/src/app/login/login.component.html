@@ -1,0 +1,43 @@
+<div class="flex justify-center items-center h-screen main">
+  <!-- Left side with welcome text -->
+  <div class="flex-1 flex justify-end">
+    <div class="mr-10">
+<!--      <a href="/" class="text-xl font-bold mb-12">ShedStudy</a>-->
+      <h2 class="text-4xl font-bold mb-6 main-text">Добро пожаловать в цифровой деканат!</h2>
+      <p class="text-gray-700 mb-8 text">
+        Войдите, чтобы перейти на новый уровень управления учебным<br>
+        процессом с нашим инновационным приложением для генерации расписаний.
+      </p>
+      <div class="h-1 bg-purple-600 w-10"></div>
+    </div>
+  </div>
+
+  <!-- Right side with login form -->
+  <div class="flex-1 flex justify-start">
+    <div class="ml-10 max-w-md">
+      <div class="bg-white p-8 rounded-lg shadow-lg container">
+        <h3 class="text-2xl font-bold mb-6 login-text">Вход</h3>
+        <form>
+          <div class="mb-4 textbox">
+            <label for="email" class="block text-gray-700 mb-2">Почта</label>
+            <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="email@gmail.com">
+          </div>
+          <div class="mb-4 textbox">
+            <label for="password" class="block text-gray-700 mb-2">Пароль</label>
+            <input type="password" id="password" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Введите пароль больше 8 символов">
+          </div>
+<!--          <div class="flex justify-between items-center mb-6">-->
+<!--            <div class="flex items-center">-->
+<!--              <input type="checkbox" id="remember" class="mr-2">-->
+<!--              <label for="remember" class="text-sm text-gray-700">Запомнить меня</label>-->
+<!--            </div>-->
+<!--            <a href="#" class="text-sm text-blue-600">Забыли пароль?</a>-->
+<!--          </div>-->
+          <div class="flex button">
+            <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold button items-center" [routerLink]="['/schedule']">Войти</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

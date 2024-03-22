@@ -1,0 +1,62 @@
+.main {
+  display: flex;
+}
+
+.sidebar {
+  width: 252px;
+  height: 1020px;
+  background: #FFFFFFFF; /* white */
+  border-radius: 0px;
+  box-shadow: 0px 0px 1px #171a1f, 0px 0px 2px #171a1f; /* shadow-xs */
+}
+
+
+.sidebar .sidebar-menu {
+  top: 128px;
+  left: 16px;
+  width: 220px;
+  height: 144px;
+  display: flex;
+  flex-direction: column;
+  font-family: Inter; /* Body */
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  opacity: 1;
+  gap: 12px;
+}
+/* Sidebar menu 3 - Item */
+.sidebar .sidebar-menu .sidebar-menu-item {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  color: #565E6CFF; /* neutral-600 */
+  background: #000000FF; /* transparent */
+  border-radius: 4px; /* border-m */
+  gap: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+/* Sidebar menu 3 - Item indent */
+.sidebar .sidebar-menu .sidebar-menu-item.indent {
+  padding-left: 31px;
+}
+/* Sidebar menu 3 - Selected item */
+.sidebar .sidebar-menu .sidebar-menu-item.selected {
+  position: relative;
+  font-weight: 700;
+  color: #006D7CFF; /* primary-700 */
+  background: #A6F5FFFF; /* primary-200 */
+}
+/* Sidebar menu 3 - Selected item */
+.sidebar .sidebar-menu .sidebar-menu-item.selected:hover:active {
+  color: #006D7CFF; /* primary-700 */
+  background: #A6F5FFFF; /* primary-200 */
+}
+/* Sidebar menu 3 - Icon */
+.sidebar .sidebar-menu svg.icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}

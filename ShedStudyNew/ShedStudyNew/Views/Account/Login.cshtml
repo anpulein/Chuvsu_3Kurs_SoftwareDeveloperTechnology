@@ -1,0 +1,46 @@
+﻿@model ShedStudyNew.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Account Page";
+    Layout = null; // Это отключит Layout для этой страницы
+}
+
+
+<link rel="stylesheet" href="~/css/login.css">
+
+<div class="login-container">
+    <div class="block">
+        <!-- Содержимое первого блока -->
+        <h1 class="main-text">Добро пожаловать в цифровой деканат!</h1>
+        <span class="text">Войдите, чтобы перейти на новый уровень управления учебном процессом <br>с нашим инновационным приложением для генераций расписания.</span>
+    </div>
+    <div class="block rectangle last-block">
+        <!-- Содержимое второго блока -->
+        <div class="block-login">
+            <h1 class="main-text">Вход</h1>
+
+            <div class="form">
+                <form method="post" asp-action="Login"
+                      asp-route-returnUrl="@Model.ReturnUrl">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="textbox">
+                        <label asp-for="Email"></label><br/>
+                        <input asp-for="Email"/>
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <div class="textbox">
+                        <label asp-for="Password"></label><br/>
+                        <input asp-for="Password"/>
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                    @* <div> *@
+                    @*     <label asp-for="RememberMe"></label><br/> *@
+                    @*     <input asp-for="RememberMe"/> *@
+                    @* </div> *@
+                    <div>
+                        <input class="button" type="submit" value="Войти"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

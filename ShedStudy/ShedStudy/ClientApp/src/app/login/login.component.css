@@ -1,0 +1,135 @@
+
+.main {
+  display: flex;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin-top: 200px;
+}
+
+
+.main-text {
+  width: 475px;
+  font-family: Epilogue; /* Heading */
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 68px;
+  color: #9095A0FF; /* neutral-500 */
+}
+
+
+.text {
+  width: 389px;
+  font-family: Inter; /* Body */
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #9095A0FF; /* neutral-500 */
+}
+
+
+.container {
+  width: 471px;
+  height: 393px;
+  background: #FFFFFFFF; /* white */
+  border-radius: 4px; /* border-m */
+  border-width: 2px;
+  border-color: #00BDD6FF; /* primary-500 */
+  border-style: solid;
+}
+
+
+.container .login-text {
+  margin-top: 50px;
+  text-align: center;
+  font-family: Epilogue; /* Heading */
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 48px;
+  color: #171A1FFF; /* neutral-900 */
+}
+
+
+/* Textbox 317 */
+form .textbox {
+  top: 136px;
+  left: 56px;
+  opacity: 1;
+}
+form .textbox input {
+  width: 359px;
+  height: 29px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-family: Inter; /* Body */
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  background: #F3F4F6FF; /* neutral-200 */
+  border-radius: 4px; /* border-m */
+  border-width: 0px;
+  outline: none;
+}
+form .textbox label {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 20px;
+}
+/* hover */
+form .textbox input:hover {
+  color: #BCC1CAFF; /* neutral-400 */
+  background: #F3F4F6FF; /* neutral-200 */
+}
+/* focused */
+form .textbox input:focused {
+  color: #BCC1CAFF; /* neutral-400 */
+  background: #FFFFFFFF; /* white */
+}
+/* disabled */
+form .textbox input:disabled {
+  color: #BCC1CAFF; /* neutral-400 */
+  background: #F3F4F6FF; /* neutral-200 */
+}
+form .textbox :disabled + .icon, .textbox :disabled + .icon + .icon {
+  fill: #171A1FFF; /* neutral-900 */
+}
+
+
+form .button {
+  display: flex;
+  justify-content: center;
+}
+
+form button {
+  width: 359px;
+  height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Inter; /* Body */
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  color: #FFFFFFFF; /* white */
+  background: #00BDD6FF; /* primary-500 */
+  opacity: 1;
+  border: none;
+  border-radius: 4px; /* border-m */
+  box-shadow: 0px 8px 17px #00bdd6, 0px 0px 2px #00bdd6; /* shadow-l */
+}
+/* Hover */
+form button:hover {
+  color: #FFFFFFFF; /* white */
+  background: #00A9C0FF; /* primary-550 */
+}
+/* Pressed */
+form button:hover:active {
+  color: #FFFFFFFF; /* white */
+  background: #0095A9FF; /* primary-600 */
+}
+/* Disabled */
+form button:disabled {
+  opacity: 0.4;
+}
